@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 		switch(menu_entry)
 		{
 			case 1:
-				print_user_line(result_tab);
+				print_user_line(result_tab, length_tab);
 				break;
 
 			case 2:
@@ -65,6 +65,11 @@ int main(int argc, char **argv)
 				get_all_mail(result_tab);
 				break;
 
+			case 7:
+				printf("\n");
+				modify_client_mail(result_tab, "roland.lambert@server.fr", "cacaboudin");
+				break;
+
 			case 12:
 				printf("\n");
 				printf("Fin du programme...");
@@ -73,7 +78,7 @@ int main(int argc, char **argv)
 
 			default:
 				printf("\n");
-				printf("Veuillez selectionner numéro correct\n");
+				printf("Veuillez sélectionner numéro correct\n");
 		}
 	}
 
