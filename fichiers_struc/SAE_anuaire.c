@@ -1,13 +1,25 @@
 #include "SAE_anuaire.h"
 
+//TODO Rajouter des asserts mais questionner car kill le prog
+
 int main(int argc, char **argv)
 {
 	int length_tab;
 	int menu_entry;
 	char user_email[100];
-	int index_tab;
+	char new_user_email[100];
 	int end_program = 1;
 	entry **result_tab;
+	char field[11];
+	char new_content_field[100];
+
+	char firstname[100];
+	char lastname[100];
+	char zipcode[100];
+	char city[100];
+	char phone[100];
+	char mail[100];
+	char job[100];
 
     if (argc == 1)
     {
@@ -33,16 +45,14 @@ int main(int argc, char **argv)
 		switch(menu_entry)
 		{
 			case 1:
-				print_user_line(result_tab);
+				print_user_line(result_tab, length_tab);
 				break;
 
 			case 2:
 				printf("Quel utilisateur voulez vous supprimer (renter son adresse E-mail) -> ");
 				fflush( stdout );
 				scanf("%s", user_email);
-				index_tab = select_line_with_email(result_tab,user_email);
-				printf("\n%d", index_tab);
-				del_line_tab(result_tab, index_tab);
+				del_line_tab(result_tab, user_email);
 				break;
 
 			case 3:
@@ -65,6 +75,92 @@ int main(int argc, char **argv)
 				get_all_mail(result_tab);
 				break;
 
+			case 7:
+				printf("Quel email voulez vous modifier -> ");
+				fflush( stdout );
+				scanf("%s", user_email);
+				printf("Par quelle email voulez vous la remplacer -> ");
+				fflush( stdout );
+				scanf("%s", new_user_email);
+				printf("\n");
+				modify_client_mail(result_tab, user_email, new_user_email);
+				break;
+
+			case 8:
+				printf("\n");
+				printf("Les champs dispnibles sont:\n");
+				printf("\t[prénom]\n");
+				printf("\t[nom]\n");
+				printf("\t[code-postal]\n");
+				printf("\t[ville]\n");
+				printf("\t[téléphone]\n");
+				printf("\t[email]\n");
+				printf("\t[profession]\n");
+				printf("Quel champ voulez-vous modifier -> ");
+				fflush( stdout );
+				scanf("%s", field);
+				printf("De quel utilisateur voulez-vous modifier le champ %s (rentrer son adresse mail) -> ", field);
+				fflush( stdout );
+				scanf("%s", user_email);
+				printf("Par quelle valeur voulez-vous remplacer l'ancienne -> ");
+				fflush( stdout );
+				scanf("%s", new_content_field);
+				modify_client_field(result_tab,user_email, field, new_content_field);
+				break;
+
+			case 9:
+				printf("\n");
+				print_entry_all(result_tab, 0);
+				printf("\n");
+				print_entry_all(result_tab, 1);
+				printf("\n");
+				print_entry_all(result_tab, 2);
+				printf("\n");
+				break;
+
+			case 10:
+				printf("\n");
+				field_filter(result_tab, "prénom", "cher");
+				break;
+
+			case 11:
+				//ask user information for new-line
+				printf("\n");
+				printf("Veuillez rentrer les informations de l'utilisateur à ajouter\n");
+				printf("Prénom -> ");
+				fflush( stdout );
+				scanf("%s", firstname);
+				printf("Nom -> ");
+				fflush( stdout );
+				scanf("%s", lastname);
+				printf("Code postal -> ");
+				fflush( stdout );
+				scanf("%s", zipcode);
+				printf("Ville -> ");
+				fflush( stdout );
+				scanf("%s", city);
+				printf("Téléphone -> ");
+				fflush( stdout );
+				scanf("%s", phone);
+				printf("Email -> ");
+				fflush( stdout );
+				scanf("%s", mail);
+				printf("Profession -> ");
+				fflush( stdout );
+				scanf("%s", job);
+
+				//add new line to tab
+				add_line_tab(result_tab, firstname, lastname, zipcode, city, phone, mail, job);
+				break;
+
+
+			case 99:
+				write_content_new_file(result_tab);
+				printf("\n");
+				printf("Fin du programme...");
+				end_program = 0;
+				break;
+
 			case 12:
 				printf("\n");
 				printf("Fin du programme...");
@@ -73,7 +169,7 @@ int main(int argc, char **argv)
 
 			default:
 				printf("\n");
-				printf("Veuillez selectionner numéro correct\n");
+				printf("Veuillez sélectionner numéro correct\n");
 		}
 	}
 

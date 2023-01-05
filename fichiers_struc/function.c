@@ -55,24 +55,26 @@ void print_entry_all(entry **to_print, int line)
 
 entry **parse_tab(char *filename)
 {
-    FILE* file;
+    FILE* file_in;
 
     entry *tmp;
 	entry **result_tab = NULL;
 
-    file = fopen(filename, "r");
+    file_in = fopen(filename, "r");
 
     do
     {
-        tmp = get_line(file);
+        tmp = get_line(file_in);
         result_tab = add_tab(result_tab, tmp);
     }
-    while(!feof(file));
+    while(!feof(file_in));
 
-    fclose(file);
+    fclose(file_in);
 
 	return result_tab;
 }
+
+//TODO Warnings lignes 94 pas compris
 
 int **check_email_not_same(entry **tab)
 {
@@ -101,5 +103,28 @@ int **check_email_not_same(entry **tab)
 	return 0;
 }
 
-//void modify_client_name(entry **tab,char ancient_mail,char new_mail){
-//}
+void write_content_new_file(entry **result_tab)
+{
+	FILE* fp_out;
+
+	fp_out = fopen("Sortie_test.txt", "w");
+
+	int i = 0;
+	int len = tab_length(result_tab);
+
+	do
+	{
+		fprintf(fp_out,"%s,", result_tab[i]->lastname);
+		fprintf(fp_out,"%s,", result_tab[i]->firstname);
+		fprintf(fp_out,"%s,", result_tab[i]->zipcode);
+		fprintf(fp_out,"%s,", result_tab[i]->city);
+		fprintf(fp_out,"%s,", result_tab[i]->phone);
+		fprintf(fp_out,"%s,", result_tab[i]->mail);
+		fprintf(fp_out,"%s\n", result_tab[i]->job);
+
+		i++;
+	}
+	while(i < len);
+
+	fclose(fp_out);
+}
